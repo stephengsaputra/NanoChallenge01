@@ -38,7 +38,7 @@ class RecipeListViewController: UIViewController {
     
     @objc func refresh(_ sender: Any) {
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.fetchData()
             self.recipeCollectionView.refreshControl?.endRefreshing()
         }
@@ -114,11 +114,6 @@ extension RecipeListViewController: UICollectionViewDelegate, UICollectionViewDa
                 vc.delegate = self
             }
         }
-//        else if segue.identifier == "toRecipeDetails" {
-//            if let vc = segue.destination as? RecipeDetailsViewController {
-//                vc.delegate = self
-//            }
-//        }
     }
 }
 
@@ -129,11 +124,3 @@ extension RecipeListViewController: ReloadCoreDataDelegate {
         self.recipeCollectionView.reloadData()
     }
 }
-
-//extension RecipeListViewController: ReloadCoreDataAfterUpdateDelegate {
-//
-//    func reloadTable() {
-//        fetchData()
-//        self.recipeCollectionView.reloadData()
-//    }
-//}
