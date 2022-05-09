@@ -29,7 +29,19 @@ class RecipeListViewController: UIViewController {
         recipeCollectionView.delegate = self
         recipeCollectionView.dataSource = self
         
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        self.recipeCollectionView.refreshControl = refreshControl
+        
         fetchData()
+    }
+    
+    @objc func refresh(_ sender: Any) {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.fetchData()
+            self.recipeCollectionView.refreshControl?.endRefreshing()
+        }
     }
     
     @IBAction func unwindToRecipeListView(_ sender: UIStoryboardSegue) { }
@@ -101,11 +113,12 @@ extension RecipeListViewController: UICollectionViewDelegate, UICollectionViewDa
             if let vc = segue.destination as? AddRecipeViewController {
                 vc.delegate = self
             }
-        } else if segue.identifier == "toRecipeDetails" {
-            if let vc = segue.destination as? RecipeDetailsViewController {
-                vc.delegate = self
-            }
         }
+//        else if segue.identifier == "toRecipeDetails" {
+//            if let vc = segue.destination as? RecipeDetailsViewController {
+//                vc.delegate = self
+//            }
+//        }
     }
 }
 
@@ -117,10 +130,10 @@ extension RecipeListViewController: ReloadCoreDataDelegate {
     }
 }
 
-extension RecipeListViewController: ReloadCoreDataAfterUpdateDelegate {
-    
-    func reloadTable() {
-        fetchData()
-        self.recipeCollectionView.reloadData()
-    }
-}
+//extension RecipeListViewController: ReloadCoreDataAfterUpdateDelegate {
+//
+//    func reloadTable() {
+//        fetchData()
+//        self.recipeCollectionView.reloadData()
+//    }
+//}
